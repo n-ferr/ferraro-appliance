@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +32,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+AUTH_USER_MODEL = "api.User"
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -79,8 +81,12 @@ WSGI_APPLICATION = 'clave.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'appliance_repair'),
+	'USER': os.environ.get('DB_USER', 'postgres'),
+	'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
+	'HOST': os.environ.get('DB_HOST', 'localhost'),
+	'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
@@ -102,10 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
